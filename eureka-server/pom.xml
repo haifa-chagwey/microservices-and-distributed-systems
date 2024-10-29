@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>euruka-server</artifactId>
+    <artifactId>eureka-server</artifactId>
 
     <dependencies>
         <dependency>
