@@ -1,5 +1,7 @@
 package com.haifachagwey.customer;
 
+import com.haifachagwey.clients.fraud.FraudCheckResponse;
+import com.haifachagwey.clients.fraud.FraudClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -7,11 +9,13 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
 
-    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
+    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient) {
         this.customerRepository = customerRepository;
-        this.restTemplate = restTemplate;
+//        this.restTemplate = restTemplate;
+        this.fraudClient = fraudClient;
     }
 
     public void registerCustomer(CustomerRegistrationRequest request) {
@@ -29,9 +33,10 @@ public class CustomerService {
 //        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
 //                FraudCheckResponse.class,
 //                customer.getId());
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId());
+//        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,
+//                customer.getId());
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
