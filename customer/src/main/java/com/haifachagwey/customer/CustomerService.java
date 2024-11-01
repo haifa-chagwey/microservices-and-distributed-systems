@@ -2,6 +2,8 @@ package com.haifachagwey.customer;
 
 import com.haifachagwey.clients.fraud.FraudCheckResponse;
 import com.haifachagwey.clients.fraud.FraudClient;
+import com.haifachagwey.clients.notification.NotificationClient;
+import com.haifachagwey.clients.notification.NotificationRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,11 +13,13 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 //    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
-    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient) {
+    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient, NotificationClient notificationClient) {
         this.customerRepository = customerRepository;
 //        this.restTemplate = restTemplate;
         this.fraudClient = fraudClient;
+        this.notificationClient = notificationClient;
     }
 
     public void registerCustomer(CustomerRegistrationRequest request) {
@@ -40,6 +44,12 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
-        // todo: send notification
+        notificationClient.sendNotification(
+                new NotificationRequest(
+                        customer.getId(),
+                        customer.getEmail(),
+                        String.format("Hi %s, welcome to Amigoscode", customer.getFirstName())
+                )
+        );
     }
 }
