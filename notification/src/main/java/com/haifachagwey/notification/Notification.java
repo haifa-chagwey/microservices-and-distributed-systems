@@ -1,14 +1,11 @@
 package com.haifachagwey.notification;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CurrentTimestamp;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Builder

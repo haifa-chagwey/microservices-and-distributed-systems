@@ -5,25 +5,21 @@ import com.haifachagwey.clients.fraud.FraudClient;
 import com.haifachagwey.clients.notification.NotificationClient;
 import com.haifachagwey.clients.notification.NotificationRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
-//    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
 
-    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, FraudClient fraudClient, NotificationClient notificationClient) {
+    public CustomerService(CustomerRepository customerRepository, FraudClient fraudClient, NotificationClient notificationClient) {
         this.customerRepository = customerRepository;
-//        this.restTemplate = restTemplate;
         this.fraudClient = fraudClient;
         this.notificationClient = notificationClient;
     }
 
     public void registerCustomer(CustomerRegistrationRequest request) {
-
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
                 .lastName(request.lastName())
@@ -31,14 +27,13 @@ public class CustomerService {
                 .build();
         // todo: check if email is valid
         // todo: check if email not taken
-        // todo: check if fraudulent
         customerRepository.saveAndFlush(customer);
 
-//        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
-//                FraudCheckResponse.class,
+//        com.haifachagwey.clients.fraud.FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
+//                com.haifachagwey.clients.fraud.FraudCheckResponse.class,
 //                customer.getId());
-//        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
-//                FraudCheckResponse.class,
+//        com.haifachagwey.clients.fraud.FraudCheckResponse fraudCheckResponse = restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
+//                com.haifachagwey.clients.fraud.FraudCheckResponse.class,
 //                customer.getId());
         FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(customer.getId());
         if (fraudCheckResponse.isFraudster()) {
