@@ -15,9 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     private final ConnectionFactory connectionFactory;
-
-    //  Ability to publish/send a message the queue
-    //  Producer -------------> Exchange --> Queue
+    // Configure the RabbitMQ to allow us sending/publishing messages to the queue
+    // Producer -------------> Exchange --> Queue
     @Bean
     public AmqpTemplate amqpTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -25,7 +24,7 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
-    //  Ability to receive a message from the queue
+    //  Configure the RabbitMQ to allow us to receive messages from the queue
     // Queue -------------> Consumer
     @Bean
     public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {

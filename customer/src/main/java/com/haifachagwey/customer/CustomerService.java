@@ -63,7 +63,7 @@ public class CustomerService {
                         customer.getId(),
                         customer.getEmail(),
                         String.format("Hi %s, welcome to Amigoscode", customer.getFirstName())
-                )
+                );
         rabbitMQMessageProducer.publish(
                 notificationRequest,
                 "internal.exchange",
