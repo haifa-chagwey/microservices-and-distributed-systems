@@ -6,7 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.haifachagwey.customer",
+        "com.haifachagwey.amqp"
+})
 @EnableEurekaClient
 @EnableFeignClients(basePackages = "com.haifachagwey.clients")
 public class CustomerApplication {

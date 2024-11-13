@@ -1,5 +1,6 @@
 package com.haifachagwey.customer;
 
+import com.haifachagwey.amqp.RabbitMQMessageProducer;
 import com.haifachagwey.clients.fraud.FraudCheckResponse;
 import com.haifachagwey.clients.fraud.FraudClient;
 import com.haifachagwey.clients.notification.NotificationClient;
@@ -14,6 +15,7 @@ public class CustomerService {
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
 //    private final RestTemplate restTemplate;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
 //    public CustomerService(CustomerRepository customerRepository, FraudClient fraudClient, NotificationClient notificationClient, RestTemplate restTemplate) {
 //        this.customerRepository = customerRepository;
@@ -21,11 +23,12 @@ public class CustomerService {
 //        this.notificationClient = notificationClient;
 //        this.restTemplate = restTemplate;
 //    }
-public CustomerService(CustomerRepository customerRepository, FraudClient fraudClient, NotificationClient notificationClient) {
-    this.customerRepository = customerRepository;
-    this.fraudClient = fraudClient;
-    this.notificationClient = notificationClient;
-}
+    public CustomerService(CustomerRepository customerRepository, FraudClient fraudClient, NotificationClient notificationClient, RabbitMQMessageProducer rabbitMQMessageProducer) {
+        this.customerRepository = customerRepository;
+        this.fraudClient = fraudClient;
+        this.notificationClient = notificationClient;
+        this.rabbitMQMessageProducer = rabbitMQMessageProducer;
+    }
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -49,12 +52,23 @@ public CustomerService(CustomerRepository customerRepository, FraudClient fraudC
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
-        notificationClient.sendNotification(
-                new NotificationRequest(
+//        notificationClient.sendNotification(
+//                new NotificationRequest(
+//                        customer.getId(),
+//                        customer.getEmail(),
+//                        String.format("Hi %s, welcome to Amigoscode", customer.getFirstName())
+//                )
+//        );
+        NotificationRequest notificationRequest =  new NotificationRequest(
                         customer.getId(),
                         customer.getEmail(),
                         String.format("Hi %s, welcome to Amigoscode", customer.getFirstName())
                 )
+        rabbitMQMessageProducer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
+
         );
     }
 }
