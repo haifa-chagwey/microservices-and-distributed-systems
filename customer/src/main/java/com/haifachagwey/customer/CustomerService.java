@@ -52,6 +52,7 @@ public class CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster");
         }
+//        Before using RabbitMQ
 //        notificationClient.sendNotification(
 //                new NotificationRequest(
 //                        customer.getId(),
@@ -59,6 +60,7 @@ public class CustomerService {
 //                        String.format("Hi %s, welcome to Amigoscode", customer.getFirstName())
 //                )
 //        );
+//        After using RabbitMQ
         NotificationRequest notificationRequest =  new NotificationRequest(
                         customer.getId(),
                         customer.getEmail(),
@@ -66,9 +68,9 @@ public class CustomerService {
                 );
         rabbitMQMessageProducer.publish(
                 notificationRequest,
+//                TODO: Refactor
                 "internal.exchange",
                 "internal.notification.routing-key"
-
         );
     }
 }

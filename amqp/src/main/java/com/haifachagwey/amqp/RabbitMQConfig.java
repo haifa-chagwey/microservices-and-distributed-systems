@@ -24,7 +24,7 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
-    //  Configure the RabbitMQ to allow us to receive messages from the queue
+    // Configure the RabbitMQ to allow us to receive messages from the queue
     // Queue -------------> Consumer
     @Bean
     public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {

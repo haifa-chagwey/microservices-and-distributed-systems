@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class RabbitMQMessageProducer {
 
     private final AmqpTemplate amqpTemplate;
-
+    // The Producer will use this function to send its message to the exchange
     public void publish(Object payload, String exchange, String routingKey) {
         log.info("Publishing to {} using routingKey {}. Payload: {}", exchange, routingKey, payload);
         amqpTemplate.convertAndSend(exchange, routingKey, payload);
