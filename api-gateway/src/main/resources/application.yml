@@ -7,16 +7,12 @@ spring:
     base-url: http://localhost:9411
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
         - id: customer
 #          Without using discovery server
 #          uri: http://localhost:8080
 #          Using discovery server
           uri: lb://customer
-#          uri: lb://CUSTOMER
           predicates:
             - Path=/api/v1/customers/**
 eureka:
@@ -25,6 +21,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-logging:
-  level:
-    root: WARN
+    enabled: false

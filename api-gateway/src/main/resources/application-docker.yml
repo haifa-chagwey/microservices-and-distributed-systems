@@ -7,11 +7,11 @@ spring:
     base-url: http://zipkin:9411
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
       routes:
         - id: customer
+#          Without using discovery server
+#          uri: http://localhost:8080
+#          Using discovery server
           uri: lb://customer
           predicates:
             - Path=/api/v1/customers/**
@@ -21,6 +21,4 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-logging:
-  level:
-    root: WARN
+    enabled: false

@@ -6,7 +6,7 @@ spring:
   datasource:
     username: 'postgres'
     password: 'root'
-    url: jdbc:postgresql://localhost:5432/fraud
+    url: jdbc:postgresql://localhost:5433/fraud
   jpa:
     hibernate:
       ddl-auto: create
@@ -23,3 +23,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+    enabled: false
