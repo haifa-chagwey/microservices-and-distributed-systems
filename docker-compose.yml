@@ -65,50 +65,50 @@ services:
 #    depends_on:
 #      - zipkin
 #      - eureka-server
-  customer:
-    image: haifachagwey/customer:latest
-    container_name: customer
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - postgres
-    depends_on:
-#      - eureka-server
-      - zipkin
-      - postgres
-      - rabbitmq
-  fraud:
-    image: haifachagwey/fraud:latest
-    container_name: fraud
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - postgres
-    depends_on:
-#      - eureka-server
-      - zipkin
-      - postgres
-  notification:
-    image: haifachagwey/notification:latest
-    container_name: notification
-    ports:
-      - "8082:8082"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - postgres
-    depends_on:
-#      - eureka-server
-      - zipkin
-      - postgres
-      - rabbitmq
+#  customer:
+#    image: haifachagwey/customer:latest
+#    container_name: customer
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+##      - eureka-server
+#      - zipkin
+#      - postgres
+#      - rabbitmq
+#  fraud:
+#    image: haifachagwey/fraud:latest
+#    container_name: fraud
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+##      - eureka-server
+#      - zipkin
+#      - postgres
+#  notification:
+#    image: haifachagwey/notification:latest
+#    container_name: notification
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - postgres
+#    depends_on:
+##      - eureka-server
+#      - zipkin
+#      - postgres
+#      - rabbitmq
 networks:
   postgres:
     driver: bridge

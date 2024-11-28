@@ -16,6 +16,7 @@ spring:
         format_sql: true
     show-sql: true
   zipkin:
+#    name of container
     base-url: http://zipkin:9411
   rabbitmq:
     addresses: rabbitmq:5672

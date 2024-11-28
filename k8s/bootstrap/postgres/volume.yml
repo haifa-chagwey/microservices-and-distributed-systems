@@ -1,3 +1,5 @@
+# Within this file we are going to define how Postgres will store its data into our minikube node
+# Persistent volume
 apiVersion: v1
 kind: PersistentVolume
 metadata:

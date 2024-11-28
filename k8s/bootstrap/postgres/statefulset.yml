@@ -1,3 +1,4 @@
+# this will allows the instantition of the instance
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
